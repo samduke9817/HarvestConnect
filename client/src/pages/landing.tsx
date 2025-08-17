@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
 import { Sprout, Search, ShoppingCart, Smartphone, Truck, Heart, Star, Shield, Leaf, HandHeart } from "lucide-react";
 
 export default function Landing() {
@@ -132,7 +133,7 @@ export default function Landing() {
               <Button variant="ghost" size="icon" className="md:hidden">
                 <Search className="h-5 w-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="relative" data-testid="cart-button">
+              <Button variant="ghost" size="icon" className="relative" onClick={() => window.location.href = '/cart'} data-testid="cart-button">
                 <ShoppingCart className="h-5 w-5" />
                 <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-secondary">3</Badge>
               </Button>
@@ -177,7 +178,7 @@ export default function Landing() {
                 <Button 
                   size="lg" 
                   className="bg-secondary hover:bg-secondary-dark text-white"
-                  onClick={() => window.location.href = '/api/login'}
+                  onClick={() => window.location.href = '/products'}
                   data-testid="start-shopping-button"
                 >
                   Start Shopping
@@ -209,20 +210,22 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-semibold text-gray-900">Shop by Category</h3>
-            <Button variant="ghost" data-testid="view-all-categories">
+            <Button variant="ghost" onClick={() => window.location.href = '/products'} data-testid="view-all-categories">
               View All <span className="ml-1">→</span>
             </Button>
           </div>
           
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
             {categories.map((category, index) => (
-              <div key={index} className="text-center group cursor-pointer" data-testid={`category-${category.name.toLowerCase()}`}>
-                <div className={`${category.color} rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center transition-colors`}>
-                  <span className="text-2xl">{category.icon}</span>
+              <Link key={index} href="/products">
+                <div className="text-center group cursor-pointer" data-testid={`category-${category.name.toLowerCase()}`}>
+                  <div className={`${category.color} rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center transition-colors`}>
+                    <span className="text-2xl">{category.icon}</span>
+                  </div>
+                  <p className="text-sm font-medium text-gray-700">{category.name}</p>
+                  <p className="text-xs text-gray-500">{category.count}</p>
                 </div>
-                <p className="text-sm font-medium text-gray-700">{category.name}</p>
-                <p className="text-xs text-gray-500">{category.count}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -288,7 +291,11 @@ export default function Landing() {
                     <span className="text-xs text-gray-500">{product.stock}</span>
                   </div>
 
-                  <Button className="w-full" data-testid={`add-to-cart-${product.id}`}>
+                  <Button 
+                    className="w-full" 
+                    onClick={() => window.location.href = '/api/login'}
+                    data-testid={`add-to-cart-${product.id}`}
+                  >
                     <ShoppingCart className="h-4 w-4 mr-2" />
                     Add to Cart
                   </Button>
@@ -298,7 +305,7 @@ export default function Landing() {
           </div>
 
           <div className="text-center mt-8">
-            <Button variant="outline" size="lg" data-testid="load-more-products">
+            <Button variant="outline" size="lg" onClick={() => window.location.href = '/products'} data-testid="load-more-products">
               Load More Products
             </Button>
           </div>

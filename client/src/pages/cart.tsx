@@ -24,7 +24,7 @@ export default function Cart() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
 
-  const { data: cartItems = [], isLoading } = useQuery({
+  const { data: cartItems = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/cart"],
   });
 

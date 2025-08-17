@@ -28,7 +28,12 @@ function Router() {
   return (
     <Switch>
       {!isAuthenticated ? (
-        <Route path="/" component={Landing} />
+        <>
+          <Route path="/" component={Landing} />
+          <Route path="/products" component={Products} />
+          <Route path="/products/:id" component={ProductDetail} />
+          <Route path="/cart" component={Cart} />
+        </>
       ) : (
         <>
           <Route path="/" component={Home} />
@@ -36,10 +41,10 @@ function Router() {
           <Route path="/products/:id" component={ProductDetail} />
           <Route path="/cart" component={Cart} />
           <Route path="/checkout" component={Checkout} />
-          {user?.role === 'farmer' && (
+          {(user as any)?.role === 'farmer' && (
             <Route path="/farmer-dashboard" component={FarmerDashboard} />
           )}
-          {user?.role === 'admin' && (
+          {(user as any)?.role === 'admin' && (
             <Route path="/admin-dashboard" component={AdminDashboard} />
           )}
         </>
