@@ -39,11 +39,12 @@ export default function ProductDetail() {
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["/api/products", id],
+    enabled: !!id && !isNaN(parseInt(id!)),
   });
 
   const { data: reviews = [] } = useQuery({
-    queryKey: ["/api/reviews", { productId: parseInt(id!) }],
-    enabled: !!id,
+    queryKey: ["/api/reviews", id],
+    enabled: !!id && !isNaN(parseInt(id!)),
   });
 
   const addToCartMutation = useMutation({
