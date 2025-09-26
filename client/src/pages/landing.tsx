@@ -186,7 +186,7 @@ export default function Landing() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-primary"
+                  className="border-2 border-white bg-white text-primary hover:bg-primary hover:text-white"
                   onClick={() => window.location.href = '/api/login'}
                   data-testid="become-supplier-button"
                 >

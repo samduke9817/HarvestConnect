@@ -138,18 +138,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getProducts(filters?: { categoryId?: number; farmerId?: number; search?: string }): Promise<Product[]> {
-    let query = db.select().from(products).where(eq(products.isActive, true));
+    const conditions = [eq(products.isActive, true)];
     
     if (filters?.categoryId) {
-      query = query.where(eq(products.categoryId, filters.categoryId));
+      conditions.push(eq(products.categoryId, filters.categoryId));
     }
     
     if (filters?.farmerId) {
-      query = query.where(eq(products.farmerId, filters.farmerId));
+      conditions.push(eq(products.farmerId, filters.farmerId));
     }
     
     if (filters?.search) {
-      query = query.where(
+      conditions.push(
         or(
           ilike(products.name, `%${filters.search}%`),
           ilike(products.description, `%${filters.search}%`)
@@ -157,7 +157,7 @@ export class DatabaseStorage implements IStorage {
       );
     }
     
-    return await query.orderBy(desc(products.createdAt));
+    return await db.select().from(products).where(and(...conditions)).orderBy(desc(products.createdAt));
   }
 
   async createProduct(product: InsertProduct): Promise<Product> {
@@ -199,7 +199,7 @@ export class DatabaseStorage implements IStorage {
       // Update quantity
       const [updatedItem] = await db
         .update(cartItems)
-        .set({ quantity: existingItem.quantity + cartItem.quantity })
+        .set({ quantity: existingItem.quantity + (cartItem.quantity || 1) })
         .where(eq(cartItems.id, existingItem.id))
         .returning();
       return updatedItem;

@@ -9,6 +9,7 @@ import Navigation from "@/components/ui/navigation";
 import ProductCard from "@/components/ui/product-card";
 import CategoryFilter from "@/components/ui/category-filter";
 import { Search, Filter, Package } from "lucide-react";
+import type { Category, Product } from "@shared/schema";
 
 export default function Products() {
   const [, navigate] = useLocation();
@@ -16,18 +17,18 @@ export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
   const [sortBy, setSortBy] = useState("newest");
 
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
   });
 
-  const { data: products = [], isLoading } = useQuery({
+  const { data: products = [], isLoading } = useQuery<Product[]>({
     queryKey: ["/api/products", { 
       search: searchQuery || undefined, 
       categoryId: selectedCategory 
     }],
   });
 
-  const sortedProducts = [...products].sort((a: any, b: any) => {
+  const sortedProducts = [...products].sort((a: Product, b: Product) => {
     switch (sortBy) {
       case "price-low":
         return parseFloat(a.price) - parseFloat(b.price);
@@ -147,7 +148,7 @@ export default function Products() {
             </div>
           ) : sortedProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {sortedProducts.map((product: any) => (
+              {sortedProducts.map((product: Product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
