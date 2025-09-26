@@ -21,24 +21,31 @@ export default function Products() {
     queryKey: ["/api/categories"],
   });
 
+  // Build query string for products
+  const buildProductsUrl = () => {
+    const params = new URLSearchParams();
+    if (searchQuery) params.append('search', searchQuery);
+    if (selectedCategory) params.append('categoryId', selectedCategory.toString());
+    return `/api/products${params.toString() ? '?' + params.toString() : ''}`;
+  };
+
   const { data: products = [], isLoading } = useQuery<Product[]>({
-    queryKey: ["/api/products", { 
-      search: searchQuery || undefined, 
-      categoryId: selectedCategory 
-    }],
+    queryKey: [buildProductsUrl()],
   });
 
   const sortedProducts = [...products].sort((a: Product, b: Product) => {
     switch (sortBy) {
       case "price-low":
-        return parseFloat(a.price) - parseFloat(b.price);
+        return parseFloat(a.price || '0') - parseFloat(b.price || '0');
       case "price-high":
-        return parseFloat(b.price) - parseFloat(a.price);
+        return parseFloat(b.price || '0') - parseFloat(a.price || '0');
       case "rating":
-        return parseFloat(b.rating) - parseFloat(a.rating);
+        return parseFloat(b.rating?.toString() || '0') - parseFloat(a.rating?.toString() || '0');
       case "newest":
       default:
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        const aDate = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const bDate = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return bDate - aDate;
     }
   });
 
@@ -102,7 +109,7 @@ export default function Products() {
 
         {/* Categories */}
         <CategoryFilter 
-          categories={categories} 
+          categories={categories as any} 
           selectedCategory={selectedCategory}
           onCategorySelect={handleCategorySelect}
         />

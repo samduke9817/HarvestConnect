@@ -152,12 +152,12 @@ export class DatabaseStorage implements IStorage {
       conditions.push(
         or(
           ilike(products.name, `%${filters.search}%`),
-          ilike(products.description, `%${filters.search}%`)
+          ilike(products.description!, `%${filters.search}%`)
         )
       );
     }
     
-    return await db.select().from(products).where(and(...conditions)).orderBy(desc(products.createdAt));
+    return await db.select().from(products).where(conditions.length > 0 ? and(...conditions) : undefined).orderBy(desc(products.createdAt));
   }
 
   async createProduct(product: InsertProduct): Promise<Product> {
