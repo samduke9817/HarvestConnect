@@ -66,54 +66,6 @@ export default function Products() {
           </p>
         </div>
 
-        {/* Search and Filters */}
-        <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-          <div className="flex flex-col lg:flex-row gap-4">
-            {/* Search */}
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input
-                  type="text"
-                  placeholder="Search for products, farmers, or locations..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                  data-testid="product-search-input"
-                />
-              </div>
-            </div>
-
-            {/* Sort */}
-            <div className="lg:w-48">
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger data-testid="sort-select">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="newest">Newest First</SelectItem>
-                  <SelectItem value="price-low">Price: Low to High</SelectItem>
-                  <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  <SelectItem value="rating">Highest Rated</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Filter Toggle for Mobile */}
-            <Button variant="outline" className="lg:hidden" data-testid="filter-toggle">
-              <Filter className="h-4 w-4 mr-2" />
-              Filters
-            </Button>
-          </div>
-        </div>
-
-        {/* Categories */}
-        <CategoryFilter 
-          categories={categories as any} 
-          selectedCategory={selectedCategory}
-          onCategorySelect={handleCategorySelect}
-        />
-
         {/* Products Grid */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
@@ -186,6 +138,54 @@ export default function Products() {
             </Card>
           )}
         </div>
+
+        {/* Search and Filters */}
+        <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input
+                  type="text"
+                  placeholder="Search for products, farmers, or locations..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                  data-testid="product-search-input"
+                />
+              </div>
+            </div>
+
+            {/* Sort */}
+            <div className="lg:w-48">
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger data-testid="sort-select">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest First</SelectItem>
+                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="rating">Highest Rated</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Filter Toggle for Mobile */}
+            <Button variant="outline" className="lg:hidden" data-testid="filter-toggle">
+              <Filter className="h-4 w-4 mr-2" />
+              Filters
+            </Button>
+          </div>
+        </div>
+
+        {/* Categories */}
+        <CategoryFilter 
+          categories={categories as any} 
+          selectedCategory={selectedCategory}
+          onCategorySelect={handleCategorySelect}
+        />
 
         {/* Load More */}
         {sortedProducts.length > 0 && sortedProducts.length % 12 === 0 && (
