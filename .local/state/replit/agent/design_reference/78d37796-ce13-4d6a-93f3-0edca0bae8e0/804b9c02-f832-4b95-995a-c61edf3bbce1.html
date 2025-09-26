@@ -1,0 +1,889 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Harvest Hub - Connect Farmers to Consumers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#059669',
+                        'primary-dark': '#047857',
+                        'secondary': '#EA580C',
+                        'secondary-dark': '#C2410C',
+                        'earth-brown': '#92400E',
+                        'earth-beige': '#FEF3C7',
+                        'neutral-warm': '#FEFEFE'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-neutral-warm font-sans">
+    <!-- @COMPONENT: Header [navigation, user auth, cart] -->
+    <header class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo and Brand -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-seedling text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Kenya Harvest Hub</h1>
+                        <p class="text-xs text-gray-500 hidden sm:block">Farm to Table</p>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8">
+                    <div class="relative w-full">
+                        <input type="text" placeholder="Search fresh produce..." 
+                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                               data-mock="true">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- Navigation Actions -->
+                <div class="flex items-center space-x-4">
+                    <button class="md:hidden p-2 text-gray-600 hover:text-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="relative p-2 text-gray-600 hover:text-primary" data-implementation="Shopping cart functionality">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center" data-bind="cart.itemCount">3</span>
+                    </button>
+                    <div class="hidden sm:flex items-center space-x-2">
+                        <button class="px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-colors" data-event="click:showLogin">
+                            Sign In
+                        </button>
+                        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors" data-event="click:showRegister">
+                            Join as Farmer
+                        </button>
+                    </div>
+                    <button class="sm:hidden p-2 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar -->
+        <div class="md:hidden px-4 pb-3">
+            <div class="relative">
+                <input type="text" placeholder="Search fresh produce..." 
+                       class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                       data-mock="true">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <!-- @COMPONENT: HeroSection [main value proposition, CTA] -->
+    <section class="bg-gradient-to-r from-primary to-green-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-3xl lg:text-5xl font-bold mb-6">
+                        Fresh from <span class="text-yellow-300">Kenyan Farms</span> to Your Table
+                    </h2>
+                    <p class="text-lg lg:text-xl mb-8 text-green-50">
+                        Connect directly with local farmers. Get the freshest produce while supporting sustainable agriculture and fair prices.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-secondary hover:bg-secondary-dark text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors" data-event="click:startShopping">
+                            Start Shopping
+                        </button>
+                        <button class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg text-lg font-semibold transition-colors" data-event="click:becomeSupplier">
+                            Become a Supplier
+                        </button>
+                    </div>
+                </div>
+                <div class="hidden lg:block">
+                    <!-- A vibrant farmers market scene with fresh vegetables and fruits -->
+                    <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
+                         alt="Fresh vegetables at Kenyan farmers market" 
+                         class="rounded-xl shadow-2xl w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HeroSection -->
+
+    <!-- @COMPONENT: CategoryFilter [product categories, quick filters] -->
+    <section class="bg-white py-8 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold text-gray-900">Shop by Category</h3>
+                <button class="text-primary hover:text-primary-dark font-medium" data-event="click:viewAllCategories">
+                    View All <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- @MAP: categories.map(category => ( -->
+                <div class="text-center group cursor-pointer" data-event="click:filterByCategory" data-category="fruits">
+                    <div class="bg-earth-beige group-hover:bg-yellow-200 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center transition-colors">
+                        <i class="fas fa-apple-alt text-2xl text-earth-brown"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-700" data-mock="true">Fruits</p>
+                    <p class="text-xs text-gray-500" data-bind="category.productCount" data-mock="true">120+ items</p>
+                </div>
+
+                <div class="text-center group cursor-pointer" data-event="click:filterByCategory" data-category="vegetables">
+                    <div class="bg-green-100 group-hover:bg-green-200 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center transition-colors">
+                        <i class="fas fa-carrot text-2xl text-primary"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-700" data-mock="true">Vegetables</p>
+                    <p class="text-xs text-gray-500" data-bind="category.productCount" data-mock="true">85+ items</p>
+                </div>
+
+                <div class="text-center group cursor-pointer" data-event="click:filterByCategory" data-category="grains">
+                    <div class="bg-yellow-100 group-hover:bg-yellow-200 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center transition-colors">
+                        <i class="fas fa-seedling text-2xl text-yellow-600"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-700" data-mock="true">Grains</p>
+                    <p class="text-xs text-gray-500" data-bind="category.productCount" data-mock="true">45+ items</p>
+                </div>
+
+                <div class="text-center group cursor-pointer" data-event="click:filterByCategory" data-category="dairy">
+                    <div class="bg-blue-100 group-hover:bg-blue-200 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center transition-colors">
+                        <i class="fas fa-cheese text-2xl text-blue-600"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-700" data-mock="true">Dairy</p>
+                    <p class="text-xs text-gray-500" data-bind="category.productCount" data-mock="true">30+ items</p>
+                </div>
+
+                <div class="text-center group cursor-pointer" data-event="click:filterByCategory" data-category="herbs">
+                    <div class="bg-green-100 group-hover:bg-green-200 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center transition-colors">
+                        <i class="fas fa-leaf text-2xl text-green-600"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-700" data-mock="true">Herbs</p>
+                    <p class="text-xs text-gray-500" data-bind="category.productCount" data-mock="true">25+ items</p>
+                </div>
+
+                <div class="text-center group cursor-pointer" data-event="click:filterByCategory" data-category="livestock">
+                    <div class="bg-orange-100 group-hover:bg-orange-200 rounded-full w-16 h-16 mx-auto mb-3 flex items-center justify-center transition-colors">
+                        <i class="fas fa-egg text-2xl text-orange-600"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-700" data-mock="true">Livestock</p>
+                    <p class="text-xs text-gray-500" data-bind="category.productCount" data-mock="true">15+ items</p>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: CategoryFilter -->
+
+    <!-- @COMPONENT: FeaturedProducts [product grid, farmer info, ratings] -->
+    <section class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-900">Fresh Today</h3>
+                    <p class="text-gray-600 mt-1">Handpicked by our farming community</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <select class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-transparent" data-implementation="Product sorting functionality">
+                        <option data-mock="true">Sort by: Freshest</option>
+                        <option data-mock="true">Price: Low to High</option>
+                        <option data-mock="true">Price: High to Low</option>
+                        <option data-mock="true">Rating</option>
+                    </select>
+                    <button class="text-primary hover:text-primary-dark" data-event="click:toggleView">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- @MAP: featuredProducts.map(product => ( -->
+                <!-- Product Card 1 -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden group cursor-pointer" data-event="click:viewProduct" data-product-id="1">
+                    <div class="relative">
+                        <!-- Fresh organic tomatoes in a wicker basket -->
+                        <img src="https://pixabay.com/get/gded2fd324a591cdcb2f7c179c4b6254bbf29b3a360fa26d7d115c1475dce86f20f7036137672cb4769db10ea87b0602bf75e649214af075a032e9d1e43397eec_1280.jpg" 
+                             alt="Fresh organic tomatoes" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                             data-mock-image="true">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-primary text-white px-2 py-1 rounded-full text-xs font-medium" data-mock="true">Fresh Today</span>
+                        </div>
+                        <button class="absolute top-3 right-3 bg-white bg-opacity-90 hover:bg-opacity-100 p-2 rounded-full transition-colors" data-event="click:toggleWishlist">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-bind="product.name" data-mock="true">Organic Tomatoes</h4>
+                                <p class="text-sm text-gray-500" data-bind="product.unit" data-mock="true">Per kg</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-primary" data-bind="product.price" data-mock="true">KSh 120</p>
+                                <p class="text-xs text-gray-500 line-through" data-bind="product.originalPrice" data-mock="true">KSh 150</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Farmer Info -->
+                        <div class="flex items-center mb-3">
+                            <!-- Portrait of a Kenyan farmer in farming attire -->
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50" 
+                                 alt="Farmer portrait" 
+                                 class="w-6 h-6 rounded-full mr-2"
+                                 data-mock-image="true">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-700 truncate" data-bind="farmer.name" data-mock="true">John Mwangi</p>
+                                <p class="text-xs text-gray-500" data-bind="farmer.location" data-mock="true">Kiambu County</p>
+                            </div>
+                        </div>
+
+                        <!-- Rating and Reviews -->
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <div class="flex text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-sm text-gray-600 ml-2" data-bind="product.rating" data-mock="true">4.8 (24)</span>
+                            </div>
+                            <span class="text-xs text-gray-500" data-bind="product.stock" data-mock="true">12 kg left</span>
+                        </div>
+
+                        <button class="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-lg transition-colors" data-event="click:addToCart" data-product-id="1">
+                            <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden group cursor-pointer" data-event="click:viewProduct" data-product-id="2">
+                    <div class="relative">
+                        <!-- Fresh green vegetables and leafy greens -->
+                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
+                             alt="Fresh spinach leaves" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                             data-mock-image="true">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs font-medium" data-mock="true">Organic</span>
+                        </div>
+                        <button class="absolute top-3 right-3 bg-white bg-opacity-90 hover:bg-opacity-100 p-2 rounded-full transition-colors" data-event="click:toggleWishlist">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-bind="product.name" data-mock="true">Fresh Spinach</h4>
+                                <p class="text-sm text-gray-500" data-bind="product.unit" data-mock="true">Per bunch</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-primary" data-bind="product.price" data-mock="true">KSh 50</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <!-- Portrait of a female Kenyan farmer -->
+                            <img src="https://pixabay.com/get/ge29052c68a92500cf498703eefdb3a6338d85fcd586237a816ed4a25e802258b56b6f97b3e3c9157a4d1844f024f270bfeb459631db94f07729c4a833739dba0_1280.jpg" 
+                                 alt="Female farmer portrait" 
+                                 class="w-6 h-6 rounded-full mr-2"
+                                 data-mock-image="true">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-700 truncate" data-bind="farmer.name" data-mock="true">Mary Wanjiku</p>
+                                <p class="text-xs text-gray-500" data-bind="farmer.location" data-mock="true">Nakuru County</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <div class="flex text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="text-sm text-gray-600 ml-2" data-bind="product.rating" data-mock="true">4.2 (18)</span>
+                            </div>
+                            <span class="text-xs text-gray-500" data-bind="product.stock" data-mock="true">8 bunches left</span>
+                        </div>
+
+                        <button class="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-lg transition-colors" data-event="click:addToCart" data-product-id="2">
+                            <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden group cursor-pointer" data-event="click:viewProduct" data-product-id="3">
+                    <div class="relative">
+                        <!-- Fresh bananas hanging from tree -->
+                        <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300" 
+                             alt="Fresh bananas" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                             data-mock-image="true">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-yellow-600 text-white px-2 py-1 rounded-full text-xs font-medium" data-mock="true">Premium</span>
+                        </div>
+                        <button class="absolute top-3 right-3 bg-white bg-opacity-90 hover:bg-opacity-100 p-2 rounded-full transition-colors" data-event="click:toggleWishlist">
+                            <i class="fas fa-heart text-red-500"></i>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-bind="product.name" data-mock="true">Sweet Bananas</h4>
+                                <p class="text-sm text-gray-500" data-bind="product.unit" data-mock="true">Per dozen</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-primary" data-bind="product.price" data-mock="true">KSh 200</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <!-- Portrait of an older Kenyan farmer -->
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50" 
+                                 alt="Senior farmer portrait" 
+                                 class="w-6 h-6 rounded-full mr-2"
+                                 data-mock-image="true">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-700 truncate" data-bind="farmer.name" data-mock="true">Samuel Kiprop</p>
+                                <p class="text-xs text-gray-500" data-bind="farmer.location" data-mock="true">Meru County</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <div class="flex text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-sm text-gray-600 ml-2" data-bind="product.rating" data-mock="true">5.0 (31)</span>
+                            </div>
+                            <span class="text-xs text-gray-500" data-bind="product.stock" data-mock="true">15 dozens left</span>
+                        </div>
+
+                        <button class="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-lg transition-colors" data-event="click:addToCart" data-product-id="3">
+                            <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden group cursor-pointer" data-event="click:viewProduct" data-product-id="4">
+                    <div class="relative">
+                        <!-- Fresh avocados on wooden surface -->
+                        <img src="https://pixabay.com/get/g39e407b62f65159abf8cc0101b0f42363727c58b89f31d082228e61dc8a87538bdaf339e3595fa951ab547a10f8d93601f6ab52ca44ed6a586c828ae1844de1a_1280.jpg" 
+                             alt="Fresh avocados" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                             data-mock-image="true">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-primary text-white px-2 py-1 rounded-full text-xs font-medium" data-mock="true">Export Quality</span>
+                        </div>
+                        <button class="absolute top-3 right-3 bg-white bg-opacity-90 hover:bg-opacity-100 p-2 rounded-full transition-colors" data-event="click:toggleWishlist">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-bind="product.name" data-mock="true">Hass Avocados</h4>
+                                <p class="text-sm text-gray-500" data-bind="product.unit" data-mock="true">Per piece</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-bold text-primary" data-bind="product.price" data-mock="true">KSh 80</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-3">
+                            <!-- Portrait of a young Kenyan female farmer -->
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50" 
+                                 alt="Young female farmer portrait" 
+                                 class="w-6 h-6 rounded-full mr-2"
+                                 data-mock-image="true">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-700 truncate" data-bind="farmer.name" data-mock="true">Grace Muthoni</p>
+                                <p class="text-xs text-gray-500" data-bind="farmer.location" data-mock="true">Murang'a County</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <div class="flex text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="text-sm text-gray-600 ml-2" data-bind="product.rating" data-mock="true">4.6 (12)</span>
+                            </div>
+                            <span class="text-xs text-gray-500" data-bind="product.stock" data-mock="true">25 pieces left</span>
+                        </div>
+
+                        <button class="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-lg transition-colors" data-event="click:addToCart" data-product-id="4">
+                            <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+
+            <div class="text-center mt-8">
+                <button class="bg-white border border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-lg transition-colors" data-event="click:loadMoreProducts">
+                    Load More Products
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: FeaturedProducts -->
+
+    <!-- @COMPONENT: HowItWorks [process explanation, trust building] -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">How Kenya Harvest Hub Works</h3>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Connecting farmers and consumers in just a few simple steps
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-primary bg-opacity-10 rounded-full w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                        <i class="fas fa-search text-2xl text-primary"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-900 mb-3">Browse & Select</h4>
+                    <p class="text-gray-600">
+                        Discover fresh produce from verified local farmers. Filter by location, category, and rating to find exactly what you need.
+                    </p>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-secondary bg-opacity-10 rounded-full w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                        <i class="fas fa-mobile-alt text-2xl text-secondary"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-900 mb-3">Order & Pay</h4>
+                    <p class="text-gray-600">
+                        Place your order and pay securely using M-Pesa or other preferred payment methods. Track your order in real-time.
+                    </p>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-green-600 bg-opacity-10 rounded-full w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                        <i class="fas fa-truck text-2xl text-green-600"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-900 mb-3">Fresh Delivery</h4>
+                    <p class="text-gray-600">
+                        Receive fresh produce delivered directly from the farm to your doorstep. Support local farmers while getting the best quality.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HowItWorks -->
+
+    <!-- @COMPONENT: FarmerSpotlight [featured farmer profiles, trust building] -->
+    <section class="py-16 bg-earth-beige">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Meet Our Farmers</h3>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Get to know the hardworking farmers behind your fresh produce
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- @MAP: featuredFarmers.map(farmer => ( -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <!-- A Kenyan farmer working in vegetable fields -->
+                        <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                             alt="Farmer working in fields" 
+                             class="w-full h-48 object-cover"
+                             data-mock-image="true">
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium" data-bind="farmer.experience" data-mock="true">15+ years experience</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <!-- Portrait of experienced Kenyan farmer -->
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60" 
+                                 alt="Farmer John Mwangi" 
+                                 class="w-12 h-12 rounded-full mr-3"
+                                 data-mock-image="true">
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-bind="farmer.name" data-mock="true">John Mwangi</h4>
+                                <p class="text-sm text-gray-500" data-bind="farmer.location" data-mock="true">Kiambu County</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-bind="farmer.description" data-mock="true">
+                            "I specialize in organic vegetables and have been farming for over 15 years. My passion is growing healthy food for families across Kenya."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="flex text-yellow-400 text-sm mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="text-xs text-gray-500" data-bind="farmer.stats" data-mock="true">4.9 rating • 120+ reviews</p>
+                            </div>
+                            <button class="text-primary hover:text-primary-dark font-medium" data-event="click:viewFarmerProfile">
+                                View Profile <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <!-- A female farmer tending to crops -->
+                        <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                             alt="Female farmer in crop field" 
+                             class="w-full h-48 object-cover"
+                             data-mock-image="true">
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium" data-bind="farmer.specialty" data-mock="true">Organic Certified</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <!-- Portrait of female Kenyan farmer -->
+                            <img src="https://pixabay.com/get/gb7abd05d9163f8cd2196eb8249741ec67b4d70dce9459652e60686cb8159fc55a62c9b924572a0c8414a406f69bc08812adf84406c76d72ebd1707dda248dc1d_1280.jpg" 
+                                 alt="Farmer Mary Wanjiku" 
+                                 class="w-12 h-12 rounded-full mr-3"
+                                 data-mock-image="true">
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-bind="farmer.name" data-mock="true">Mary Wanjiku</h4>
+                                <p class="text-sm text-gray-500" data-bind="farmer.location" data-mock="true">Nakuru County</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-bind="farmer.description" data-mock="true">
+                            "I focus on sustainable farming practices and grow the freshest leafy greens. Every harvest is done with care for both quality and environment."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="flex text-yellow-400 text-sm mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <p class="text-xs text-gray-500" data-bind="farmer.stats" data-mock="true">4.6 rating • 85+ reviews</p>
+                            </div>
+                            <button class="text-primary hover:text-primary-dark font-medium" data-event="click:viewFarmerProfile">
+                                View Profile <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="relative">
+                        <!-- A farmer with fresh fruits in orchard -->
+                        <img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                             alt="Farmer in fruit orchard" 
+                             class="w-full h-48 object-cover"
+                             data-mock-image="true">
+                        <div class="absolute bottom-4 left-4">
+                            <span class="bg-yellow-600 text-white px-3 py-1 rounded-full text-sm font-medium" data-bind="farmer.specialty" data-mock="true">Fruit Specialist</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <!-- Portrait of senior Kenyan farmer -->
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60" 
+                                 alt="Farmer Samuel Kiprop" 
+                                 class="w-12 h-12 rounded-full mr-3"
+                                 data-mock-image="true">
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-bind="farmer.name" data-mock="true">Samuel Kiprop</h4>
+                                <p class="text-sm text-gray-500" data-bind="farmer.location" data-mock="true">Meru County</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4" data-bind="farmer.description" data-mock="true">
+                            "My family has been growing premium fruits for three generations. We take pride in delivering the sweetest, most nutritious fruits in Kenya."
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="flex text-yellow-400 text-sm mb-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="text-xs text-gray-500" data-bind="farmer.stats" data-mock="true">5.0 rating • 200+ reviews</p>
+                            </div>
+                            <button class="text-primary hover:text-primary-dark font-medium" data-event="click:viewFarmerProfile">
+                                View Profile <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: FarmerSpotlight -->
+
+    <!-- @COMPONENT: ValueProposition [benefits, statistics, trust] -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-bold text-gray-900 mb-6">
+                        Why Choose Kenya Harvest Hub?
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="bg-primary bg-opacity-10 rounded-lg p-3 mr-4">
+                                <i class="fas fa-hand-holding-heart text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Fair Prices for Farmers</h4>
+                                <p class="text-gray-600">Direct connection eliminates middlemen, ensuring farmers get fair compensation for their hard work.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="bg-green-600 bg-opacity-10 rounded-lg p-3 mr-4">
+                                <i class="fas fa-leaf text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Fresh & Sustainable</h4>
+                                <p class="text-gray-600">Farm-to-table freshness with sustainable farming practices that protect our environment.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="bg-secondary bg-opacity-10 rounded-lg p-3 mr-4">
+                                <i class="fas fa-shield-alt text-secondary"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Quality Guaranteed</h4>
+                                <p class="text-gray-600">Every farmer is verified and products are quality-checked before reaching your table.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="bg-blue-600 bg-opacity-10 rounded-lg p-3 mr-4">
+                                <i class="fas fa-mobile-alt text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-2">Easy M-Pesa Payments</h4>
+                                <p class="text-gray-600">Seamless mobile payments through M-Pesa and other popular payment methods in Kenya.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="text-center bg-gray-50 rounded-xl p-6">
+                        <div class="text-3xl font-bold text-primary mb-2" data-bind="stats.farmers" data-mock="true">500+</div>
+                        <p class="text-gray-600">Verified Farmers</p>
+                    </div>
+                    <div class="text-center bg-gray-50 rounded-xl p-6">
+                        <div class="text-3xl font-bold text-secondary mb-2" data-bind="stats.customers" data-mock="true">2,000+</div>
+                        <p class="text-gray-600">Happy Customers</p>
+                    </div>
+                    <div class="text-center bg-gray-50 rounded-xl p-6">
+                        <div class="text-3xl font-bold text-green-600 mb-2" data-bind="stats.orders" data-mock="true">10,000+</div>
+                        <p class="text-gray-600">Orders Delivered</p>
+                    </div>
+                    <div class="text-center bg-gray-50 rounded-xl p-6">
+                        <div class="text-3xl font-bold text-earth-brown mb-2" data-bind="stats.counties" data-mock="true">25+</div>
+                        <p class="text-gray-600">Counties Served</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: ValueProposition -->
+
+    <!-- @COMPONENT: Footer [links, contact, payment methods] -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-seedling text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">Kenya Harvest Hub</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Connecting Kenyan farmers directly with consumers for fresh, fair-trade produce.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors" data-implementation="Social media links">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">Browse Products</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">Find Farmers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">How It Works</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">Become a Supplier</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">About Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Support -->
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">Order Tracking</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">Shipping Info</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">Returns & Refunds</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors" data-mock="true">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Payment -->
+                <div>
+                    <h4 class="font-semibold mb-4">Contact Us</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p class="flex items-center" data-mock="true">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            +254 700 123 456
+                        </p>
+                        <p class="flex items-center" data-mock="true">
+                            <i class="fas fa-envelope mr-2"></i>
+                            info@kenyaharvesthub.co.ke
+                        </p>
+                        <p class="flex items-start" data-mock="true">
+                            <i class="fas fa-map-marker-alt mr-2 mt-1"></i>
+                            Nairobi, Kenya
+                        </p>
+                    </div>
+                    <div class="mt-4">
+                        <h5 class="font-medium mb-2">We Accept</h5>
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-green-600 text-white px-2 py-1 rounded text-xs font-bold">M-PESA</div>
+                            <i class="fab fa-cc-visa text-2xl text-gray-400"></i>
+                            <i class="fab fa-cc-mastercard text-2xl text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm" data-mock="true">
+                    © 2024 Kenya Harvest Hub. All rights reserved.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors" data-mock="true">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors" data-mock="true">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors" data-mock="true">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <!-- @COMPONENT: MobileMenu [responsive navigation overlay] -->
+    <!-- @STATE: mobileMenuOpen:boolean = false -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden" id="mobileMenuOverlay" data-implementation="Mobile menu overlay">
+        <div class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300" id="mobileMenu">
+            <div class="p-4 border-b">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-seedling text-white"></i>
+                        </div>
+                        <span class="font-bold text-gray-900">Kenya Harvest Hub</span>
+                    </div>
+                    <button class="p-1 text-gray-600 hover:text-gray-900" data-event="click:closeMobileMenu">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <nav class="p-4">
+                <ul class="space-y-3">
+                    <li><a href="#" class="block py-2 text-gray-700 hover:text-primary transition-colors" data-mock="true">Browse Products</a></li>
+                    <li><a href="#" class="block py-2 text-gray-700 hover:text-primary transition-colors" data-mock="true">Categories</a></li>
+                    <li><a href="#" class="block py-2 text-gray-700 hover:text-primary transition-colors" data-mock="true">Farmers</a></li>
+                    <li><a href="#" class="block py-2 text-gray-700 hover:text-primary transition-colors" data-mock="true">How It Works</a></li>
+                    <li class="border-t pt-3">
+                        <a href="#" class="block py-2 text-primary font-medium" data-mock="true">Sign In</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block bg-primary text-white py-2 px-4 rounded-lg text-center" data-mock="true">Join as Farmer</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: MobileMenu -->
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        (function() {
+            // Mobile menu functionality placeholder
+            const mobileMenuButton = document.querySelector('[data-event="click:openMobileMenu"]');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            // Add to cart functionality placeholder
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-event*="addToCart"]')) {
+                    // TODO: Implement add to cart functionality
+                    console.log('Add to cart clicked for product:', e.target.closest('[data-product-id]')?.dataset.productId);
+                }
+                
+                if (e.target.closest('[data-event*="filterByCategory"]')) {
+                    // TODO: Implement category filtering
+                    console.log('Filter by category:', e.target.closest('[data-category]')?.dataset.category);
+                }
+            });
+
+            // Search functionality placeholder
+            const searchInputs = document.querySelectorAll('input[type="text"]');
+            searchInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    // TODO: Implement search functionality
+                    console.log('Search query:', this.value);
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
