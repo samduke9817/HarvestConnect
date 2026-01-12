@@ -1,0 +1,118 @@
+Port 5173 is in use, trying another one...
+Port 5174 is in use, trying another one...
+Port 5175 is in use, trying another one...
+Port 5176 is in use, trying another one...
+Port 5177 is in use, trying another one...
+Port 5178 is in use, trying another one...
+Port 5179 is in use, trying another one...
+
+  [32m[1mVITE[22m v5.4.19[39m  [2mready in [0m[1m1483[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5180[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+Error: The following dependencies are imported but could not be resolved:
+
+  [36m@/components/ui/toaster[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/components/ui/tooltip[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/hooks/useAuth[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/pages/not-found[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/pages/landing[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/pages/home[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/pages/products[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/pages/product-detail[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/pages/farmer-dashboard[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/pages/admin-dashboard[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/pages/cart[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+  [36m@/pages/checkout[39m [37m[2m(imported by C:/Users/sam/Downloads/HarvestConnect/client/src/App.tsx)[22m[39m
+
+Are they installed?
+    at file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:50669:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:50174:26
+Browserslist: browsers data (caniuse-lite) is 15 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+[1m[33mwarn[39m[22m - The `content` option in your Tailwind CSS configuration is missing or empty.
+[1m[33mwarn[39m[22m - Configure your content sources or your generated CSS will be missing styles.
+[1m[33mwarn[39m[22m - https://tailwindcss.com/docs/content-configuration
+[2m18:42:26[22m [31m[1m[vite][22m[39m Pre-transform error: [postcss] C:/Users/Sam/Downloads/HarvestConnect/client/src/index.css:1:1: The `border-border` class does not exist. If `border-border` is a custom class, make sure it is defined within a `@layer` directive.
+[2m18:42:27[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "@/components/ui/toaster" from "src/App.tsx". Does the file exist?
+[2m18:42:28[22m [31m[1m[vite][22m[39m [31mInternal server error: [postcss] C:/Users/Sam/Downloads/HarvestConnect/client/src/index.css:1:1: The `border-border` class does not exist. If `border-border` is a custom class, make sure it is defined within a `@layer` directive.[39m
+  Plugin: [35mvite:css[39m
+  File: [36mC:/Users/Sam/Downloads/HarvestConnect/client/src/index.css[39m:1:0
+[33m  1  |  @tailwind base;
+     |  ^
+  2  |  @tailwind components;
+  3  |  @tailwind utilities;[39m
+      at Input.error (C:\Users\Sam\Downloads\HarvestConnect\node_modules\postcss\lib\input.js:106:16)
+      at AtRule.error (C:\Users\Sam\Downloads\HarvestConnect\node_modules\postcss\lib\node.js:115:32)
+      at processApply (C:\Users\sam\Downloads\HarvestConnect\node_modules\tailwindcss\lib\lib\expandApplyAtRules.js:380:29)
+      at C:\Users\sam\Downloads\HarvestConnect\node_modules\tailwindcss\lib\lib\expandApplyAtRules.js:551:9
+      at C:\Users\sam\Downloads\HarvestConnect\node_modules\tailwindcss\lib\processTailwindFeatures.js:55:50
+      at async plugins (C:\Users\sam\Downloads\HarvestConnect\node_modules\tailwindcss\lib\plugin.js:38:17)
+      at async LazyResult.runAsync (C:\Users\Sam\Downloads\HarvestConnect\node_modules\postcss\lib\lazy-result.js:261:11)
+      at async compileCSS (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:36898:21)
+      at async TransformPluginContext.transform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:36171:11)
+      at async PluginContainer.transform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:49099:18)
+[2m18:42:28[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "@/components/ui/toaster" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Sam/Downloads/HarvestConnect/client/src/App.tsx[39m:4:24
+[33m  2  |  import { queryClient } from "./lib/queryClient";
+  3  |  import { QueryClientProvider } from "@tanstack/react-query";
+  4  |  import { Toaster } from "@/components/ui/toaster";
+     |                           ^
+  5  |  import { TooltipProvider } from "@/components/ui/tooltip";
+  6  |  import { useAuth } from "@/hooks/useAuth";[39m
+      at TransformPluginContext._formatError (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:64291:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:64423:39
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:64350:7)
+      at async PluginContainer.transform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:51977:27)
+      at async viteTransformMiddleware (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:62105:24)
+[2m18:52:45[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mC:/Users/Sam/Downloads/HarvestConnect/client/src/App.tsx[22m
+[2m18:52:47[22m [31m[1m[vite][22m[39m Pre-transform error: [postcss] C:/Users/Sam/Downloads/HarvestConnect/client/src/index.css:1:1: The `border-border` class does not exist. If `border-border` is a custom class, make sure it is defined within a `@layer` directive.
+[2m18:52:47[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "@/components/ui/toaster" from "src/App.tsx". Does the file exist?
+[2m18:52:48[22m [31m[1m[vite][22m[39m [31mInternal server error: [postcss] C:/Users/Sam/Downloads/HarvestConnect/client/src/index.css:1:1: The `border-border` class does not exist. If `border-border` is a custom class, make sure it is defined within a `@layer` directive.[39m
+  Plugin: [35mvite:css[39m
+  File: [36mC:/Users/Sam/Downloads/HarvestConnect/client/src/index.css[39m:1:0
+[33m  1  |  @tailwind base;
+     |  ^
+  2  |  @tailwind components;
+  3  |  @tailwind utilities;[39m
+      at Input.error (C:\Users\Sam\Downloads\HarvestConnect\node_modules\postcss\lib\input.js:106:16)
+      at AtRule.error (C:\Users\Sam\Downloads\HarvestConnect\node_modules\postcss\lib\node.js:115:32)
+      at processApply (C:\Users\sam\Downloads\HarvestConnect\node_modules\tailwindcss\lib\lib\expandApplyAtRules.js:380:29)
+      at C:\Users\sam\Downloads\HarvestConnect\node_modules\tailwindcss\lib\lib\expandApplyAtRules.js:551:9
+      at C:\Users\sam\Downloads\HarvestConnect\node_modules\tailwindcss\lib\processTailwindFeatures.js:55:50
+      at async plugins (C:\Users\sam\Downloads\HarvestConnect\node_modules\tailwindcss\lib\plugin.js:38:17)
+      at async LazyResult.runAsync (C:\Users\Sam\Downloads\HarvestConnect\node_modules\postcss\lib\lazy-result.js:261:11)
+      at async compileCSS (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:36898:21)
+      at async TransformPluginContext.transform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:36171:11)
+      at async PluginContainer.transform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:49099:18)
+[2m18:52:48[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "@/components/ui/toaster" from "src/App.tsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Sam/Downloads/HarvestConnect/client/src/App.tsx[39m:4:24
+[33m  2  |  import { queryClient } from "./lib/queryClient";
+  3  |  import { QueryClientProvider } from "@tanstack/react-query";
+  4  |  import { Toaster } from "@/components/ui/toaster";
+     |                           ^
+  5  |  import { TooltipProvider } from "@/components/ui/tooltip";
+  6  |  import NotFound from "@/pages/not-found";[39m
+      at TransformPluginContext._formatError (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:64291:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:64423:39
+      at async Promise.all (index 3)
+      at async TransformPluginContext.transform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:64350:7)
+      at async PluginContainer.transform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:51977:27)
+      at async viteTransformMiddleware (file:///C:/Users/Sam/Downloads/HarvestConnect/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:62105:24)
+[2m21:54:47[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mC:/Users/Sam/Downloads/HarvestConnect/client/src/App.tsx[22m
+[2m21:55:01[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mC:/Users/Sam/Downloads/HarvestConnect/client/src/lib/queryClient.ts[22m
+[2m23:14:30[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mC:/Users/Sam/Downloads/HarvestConnect/client/src/App.tsx[22m

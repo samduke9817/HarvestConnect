@@ -6,13 +6,14 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { Badge } from "./badge";
 import { Sheet, SheetContent, SheetTrigger } from "./sheet";
-import { 
-  Sprout, 
-  Search, 
-  ShoppingCart, 
-  Menu, 
-  User, 
-  Package, 
+import { apiRequest } from "@/lib/queryClient";
+import {
+  Sprout,
+  Search,
+  ShoppingCart,
+  Menu,
+  User,
+  Package,
   BarChart3,
   LogOut,
   Settings
@@ -46,8 +47,13 @@ export default function Navigation() {
     }
   };
 
-  const handleLogout = () => {
-    window.location.href = "/api/logout";
+  const handleLogout = async () => {
+    try {
+      await apiRequest("POST", "/api/auth/logout", {});
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const navigationItems = [
@@ -188,10 +194,10 @@ export default function Navigation() {
               </DropdownMenu>
             ) : (
               <div className="hidden sm:flex items-center space-x-2">
-                <Button variant="outline" onClick={() => window.location.href = '/api/login'} data-testid="signin-button">
+                <Button variant="outline" onClick={() => window.location.href = '/login'} data-testid="signin-button">
                   Sign In
                 </Button>
-                <Button onClick={() => window.location.href = '/api/login'} data-testid="join-farmer-button">
+                <Button onClick={() => window.location.href = '/login'} data-testid="join-farmer-button">
                   Join as Farmer
                 </Button>
               </div>
@@ -235,16 +241,16 @@ export default function Navigation() {
                   
                   {!isAuthenticated && (
                     <div className="border-t pt-3 space-y-3">
-                      <Button 
-                        variant="outline" 
-                        className="w-full" 
-                        onClick={() => window.location.href = '/api/login'}
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => window.location.href = '/login'}
                       >
                         Sign In
                       </Button>
-                      <Button 
-                        className="w-full" 
-                        onClick={() => window.location.href = '/api/login'}
+                      <Button
+                        className="w-full"
+                        onClick={() => window.location.href = '/login'}
                       >
                         Join as Farmer
                       </Button>

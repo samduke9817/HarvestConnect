@@ -138,10 +138,10 @@ export default function Landing() {
                 <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-secondary">3</Badge>
               </Button>
               <div className="hidden sm:flex items-center space-x-2">
-                <Button variant="outline" onClick={() => window.location.href = '/api/login'} data-testid="signin-button">
+                <Button variant="outline" onClick={() => window.location.href = '/login'} data-testid="signin-button">
                   Sign In
                 </Button>
-                <Button onClick={() => window.location.href = '/api/login'} data-testid="join-farmer-button">
+                <Button onClick={() => window.location.href = '/login'} data-testid="join-farmer-button">
                   Join as Farmer
                 </Button>
               </div>
@@ -183,11 +183,11 @@ export default function Landing() {
                 >
                   Start Shopping
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="lg" 
+                <Button
+                  variant="outline"
+                  size="lg"
                   className="border-2 border-white bg-white text-primary hover:bg-primary hover:text-white"
-                  onClick={() => window.location.href = '/api/login'}
+                  onClick={() => window.location.href = '/login'}
                   data-testid="become-supplier-button"
                 >
                   Become a Supplier
@@ -291,9 +291,9 @@ export default function Landing() {
                     <span className="text-xs text-gray-500">{product.stock}</span>
                   </div>
 
-                  <Button 
-                    className="w-full" 
-                    onClick={() => window.location.href = '/api/login'}
+                  <Button
+                    className="w-full"
+                    onClick={() => window.location.href = '/login'}
                     data-testid={`add-to-cart-${product.id}`}
                   >
                     <ShoppingCart className="h-4 w-4 mr-2" />

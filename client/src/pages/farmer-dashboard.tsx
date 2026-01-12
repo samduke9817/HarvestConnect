@@ -49,6 +49,7 @@ const productSchema = z.object({
   unit: z.string().min(1, "Unit is required"),
   stock: z.number().min(0, "Stock must be positive"),
   isOrganic: z.boolean().optional(),
+  images: z.array(z.string()).optional(),
 });
 
 export default function FarmerDashboard() {
@@ -56,17 +57,22 @@ export default function FarmerDashboard() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("overview");
   const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   useEffect(() => {
-    if (!user?.isLoading && user?.role !== 'farmer') {
-      toast({
-        title: "Access Denied",
-        description: "You need farmer access to view this page.",
-        variant: "destructive",
-      });
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 1500);
+    if (!user?.isLoading) {
+      if (!user) {
+        window.location.href = "/login";
+      } else if (user.role !== 'farmer') {
+        toast({
+          title: "Access Denied",
+          description: "You need farmer access to view this page.",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
+      }
     }
   }, [user, toast]);
 
@@ -85,9 +91,12 @@ export default function FarmerDashboard() {
     enabled: !!farmer?.id,
   });
 
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [], isLoading: categoriesLoading, error: categoriesError } = useQuery({
     queryKey: ["/api/categories"],
+    refetchOnMount: true,
   });
+
+  console.log('Categories data:', categories, 'Loading:', categoriesLoading, 'Error:', categoriesError);
 
   // Farmer Profile Form
   const profileForm = useForm({
@@ -113,6 +122,7 @@ export default function FarmerDashboard() {
       unit: "",
       stock: 0,
       isOrganic: false,
+      images: [],
     },
   });
 
@@ -140,7 +150,7 @@ export default function FarmerDashboard() {
           variant: "destructive",
         });
         setTimeout(() => {
-          window.location.href = "/api/login";
+          window.location.href = "/login";
         }, 500);
         return;
       }
@@ -169,6 +179,7 @@ export default function FarmerDashboard() {
       queryClient.invalidateQueries({ queryKey: ["/api/products"] });
       productForm.reset();
       setEditingProduct(null);
+      setSelectedImages([]);
     },
     onError: (error) => {
       if (isUnauthorizedError(error)) {
@@ -178,7 +189,7 @@ export default function FarmerDashboard() {
           variant: "destructive",
         });
         setTimeout(() => {
-          window.location.href = "/api/login";
+          window.location.href = "/login";
         }, 500);
         return;
       }
@@ -218,12 +229,28 @@ export default function FarmerDashboard() {
     });
   };
 
-  const onProductSubmit = (data: any) => {
+  const onProductSubmit = async (data: any) => {
+    let images: string[] = [];
+    if (selectedImages.length > 0) {
+      const promises = selectedImages.map(file => {
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      });
+      images = await Promise.all(promises);
+    } else if (data.images) {
+      images = data.images;
+    }
+
     productMutation.mutate({
       ...data,
       categoryId: parseInt(data.categoryId),
       price: data.price,
       stock: parseInt(data.stock) || 0,
+      images,
     });
   };
 
@@ -236,6 +263,7 @@ export default function FarmerDashboard() {
     productForm.setValue("unit", product.unit);
     productForm.setValue("stock", product.stock);
     productForm.setValue("isOrganic", product.isOrganic || false);
+    setSelectedImages([]); // Clear selected images for edit
     setActiveTab("products");
   };
 
@@ -509,35 +537,47 @@ export default function FarmerDashboard() {
                         )}
                       />
 
-                      <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                          control={productForm.control}
-                          name="price"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Price (KSh) *</FormLabel>
-                              <FormControl>
-                                <Input {...field} data-testid="price-input" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                       <div className="grid grid-cols-2 gap-4">
+                         <FormField
+                           control={productForm.control}
+                           name="price"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Price (KSh) *</FormLabel>
+                               <FormControl>
+                                 <Input {...field} data-testid="price-input" />
+                               </FormControl>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
 
-                        <FormField
-                          control={productForm.control}
-                          name="unit"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Unit *</FormLabel>
-                              <FormControl>
-                                <Input placeholder="kg, piece, bunch" {...field} data-testid="unit-input" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
+                         <FormField
+                           control={productForm.control}
+                           name="unit"
+                           render={({ field }) => (
+                             <FormItem>
+                               <FormLabel>Unit *</FormLabel>
+                               <Select value={field.value} onValueChange={field.onChange}>
+                                 <FormControl>
+                                   <SelectTrigger data-testid="unit-select">
+                                     <SelectValue placeholder="Select unit" />
+                                   </SelectTrigger>
+                                 </FormControl>
+                                 <SelectContent>
+                                   <SelectItem value="kg">kg</SelectItem>
+                                   <SelectItem value="piece">piece</SelectItem>
+                                   <SelectItem value="bunch">bunch</SelectItem>
+                                   <SelectItem value="dozen">dozen</SelectItem>
+                                   <SelectItem value="liter">liter</SelectItem>
+                                   <SelectItem value="bag">bag</SelectItem>
+                                 </SelectContent>
+                               </Select>
+                               <FormMessage />
+                             </FormItem>
+                           )}
+                         />
+                       </div>
 
                       <FormField
                         control={productForm.control}
@@ -558,24 +598,44 @@ export default function FarmerDashboard() {
                         )}
                       />
 
-                      <FormField
-                        control={productForm.control}
-                        name="description"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                {...field} 
-                                rows={3}
-                                placeholder="Describe your product..."
-                                data-testid="product-description-input"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                       <FormField
+                         control={productForm.control}
+                         name="description"
+                         render={({ field }) => (
+                           <FormItem>
+                             <FormLabel>Description</FormLabel>
+                             <FormControl>
+                               <Textarea
+                                 {...field}
+                                 rows={3}
+                                 placeholder="Describe your product..."
+                                 data-testid="product-description-input"
+                               />
+                             </FormControl>
+                             <FormMessage />
+                           </FormItem>
+                         )}
+                       />
+
+                       <FormItem>
+                         <FormLabel>Product Images</FormLabel>
+                         <FormControl>
+                           <Input
+                             type="file"
+                             multiple
+                             accept="image/*,.cr2,.nef,.arw,.dng,.raf,.orf,.rw2,.rwl,.srw,.x3f"
+                             onChange={(e) => {
+                               const files = Array.from(e.target.files || []);
+                               setSelectedImages(files);
+                             }}
+                             data-testid="images-input"
+                           />
+                         </FormControl>
+                         {selectedImages.length > 0 && (
+                           <p className="text-sm text-gray-600">{selectedImages.length} image(s) selected</p>
+                         )}
+                         <FormMessage />
+                       </FormItem>
 
                       <div className="flex gap-2">
                         <Button 
@@ -591,18 +651,19 @@ export default function FarmerDashboard() {
                           }
                         </Button>
                         
-                        {editingProduct && (
-                          <Button 
-                            type="button" 
-                            variant="outline"
-                            onClick={() => {
-                              setEditingProduct(null);
-                              productForm.reset();
-                            }}
-                          >
-                            Cancel
-                          </Button>
-                        )}
+                         {editingProduct && (
+                           <Button
+                             type="button"
+                             variant="outline"
+                             onClick={() => {
+                               setEditingProduct(null);
+                               productForm.reset();
+                               setSelectedImages([]);
+                             }}
+                           >
+                             Cancel
+                           </Button>
+                         )}
                       </div>
                     </form>
                   </Form>

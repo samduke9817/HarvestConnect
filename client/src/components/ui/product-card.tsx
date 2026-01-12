@@ -46,7 +46,7 @@ export default function ProductCard({ product, showFarmerInfo = true }: ProductC
           variant: "destructive",
         });
         setTimeout(() => {
-          window.location.href = "/api/login";
+          window.location.href = "/login";
         }, 500);
         return;
       }

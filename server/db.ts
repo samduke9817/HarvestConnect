@@ -1,15 +1,14 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
-import * as schema from "@shared/schema";
+import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
+import * as schema from "@shared/schema-sqlite";
 
-neonConfig.webSocketConstructor = ws;
+const dbPath = process.env.DATABASE_URL?.replace(/^\.\//, '') || 'harvestconnect.db';
+console.log('Opening database at:', dbPath);
+const sqliteDb = new Database(dbPath);
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
-}
+sqliteDb.pragma('journal_mode = WAL');
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle({ client: pool, schema });
+export const db = drizzle(sqliteDb, { schema });
+export const pool = null;
+export const sqlite = sqliteDb;
+console.log('Database initialized successfully');
